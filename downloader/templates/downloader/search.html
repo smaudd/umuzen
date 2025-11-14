@@ -1,0 +1,12 @@
+{% extends 'downloader/base.html' %}
+
+{% block title %}Search Videos{% endblock %}
+
+{% block content %}
+<h2>Search Videos</h2>
+<form method="get" action="{% url 'search_videos' %}">
+    <input type="text" name="q" value="{{ query }}" placeholder="Search by title..." required>
+    <button type="submit">Search</button>
+</form>
+{% include "downloader/_video_table.html" with videos=videos show_playlist_add=True show_delete=False %}
+{% endblock %}

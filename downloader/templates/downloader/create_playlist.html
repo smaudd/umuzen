@@ -1,0 +1,17 @@
+{% extends 'downloader/base.html' %}
+
+{% block title %}Create Playlist{% endblock %}
+
+{% block content %}
+<h1>Create Playlist</h1>
+<form method="post">
+    {% csrf_token %}
+    <div class="field-row">
+        <label for="name">Playlist Name:</label>
+        <input type="text" name="name" id="name" required>
+    </div>
+    <div class="field-row">
+        <button type="submit">Create</button>
+    </div>
+</form>
+{% endblock %}

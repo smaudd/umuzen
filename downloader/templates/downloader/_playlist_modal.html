@@ -1,0 +1,24 @@
+<div class="window modal-window">
+    <div class="title-bar">
+        <div class="title-bar-text">Edit Playlists for {{ video.title }}</div>
+        <div class="title-bar-controls">
+            <button aria-label="Close" hx-on:click="document.getElementById('playlist-modal').style.display='none'">×</button>
+        </div>
+    </div>
+    <div class="window-body">
+        <form method="post" action="{% url 'update_video_playlists' video.id %}" hx-boost="true" hx-target="#main-content" hx-swap="innerHTML" hx-push-url="true">
+            {% csrf_token %}
+            <p>Select playlists for this video:</p>
+            {% for playlist in playlists %}
+                <div class="checkbox-item">
+                    <input type="checkbox" id="playlist-{{ playlist.id }}" name="playlists" value="{{ playlist.id }}" {% if playlist in video.playlist_set.all %}checked{% endif %}>
+                    <label for="playlist-{{ playlist.id }}">{{ playlist.name }}</label>
+                </div>
+            {% endfor %}
+            <div class="modal-buttons">
+                <button type="submit">Save</button>
+                <button type="button" hx-on:click="document.getElementById('playlist-modal').style.display='none'">Cancel</button>
+            </div>
+        </form>
+    </div>
+</div>

@@ -1,0 +1,18 @@
+{% if messages %}
+<ul class="messages">
+    {% for message in messages %}
+        <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+    {% endfor %}
+</ul>
+{% endif %}
+<h1>Create Playlist</h1>
+<form method="post" hx-boost="true" hx-target="#main-content" hx-swap="innerHTML" hx-push-url="true">
+    {% csrf_token %}
+    <div class="field-row">
+        <label for="name">Playlist Name:</label>
+        <input type="text" name="name" id="name" required>
+    </div>
+    <div class="field-row">
+        <button type="submit">Create</button>
+    </div>
+</form>

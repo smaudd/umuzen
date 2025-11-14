@@ -1,0 +1,54 @@
+{% extends 'downloader/base.html' %}
+
+{% block title %}My Playlists{% endblock %}
+
+{% block content %}
+{% if messages %}
+<ul class="messages">
+    {% for message in messages %}
+        <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+    {% endfor %}
+</ul>
+{% endif %}
+<h2 class="page-title">Playlists</h2>
+<div class="create-playlist-section">
+    <h2 class="section-title">Create New Playlist</h2>
+    <form method="post" action="{% url 'create_playlist' %}" hx-boost="true" hx-target="#main-content" hx-swap="innerHTML" hx-push-url="true" class="create-form">
+        {% csrf_token %}
+        <div class="field-row">
+            <label for="name">Playlist Name:</label>
+            <input type="text" name="name" id="name" required class="input-field">
+        </div>
+        <div class="field-row">
+            <button type="submit">Create</button>
+        </div>
+    </form>
+</div>
+{% if playlists %}
+    <div class="playlists-list">
+        {% for playlist in playlists %}
+            <div class="playlist-item">
+                <div class="playlist-header">
+                    <h3 class="playlist-name">{{ playlist.name }}</h3>
+                    <div class="playlist-actions">
+                        <form method="post" action="{% url 'edit_playlist' playlist.id %}" hx-boost="true" hx-target="#main-content" hx-swap="innerHTML" hx-push-url="true" class="inline-form edit-form">
+                            {% csrf_token %}
+                            <input type="text" name="name" value="{{ playlist.name }}" required class="edit-input">
+                            <button type="submit">Update</button>
+                        </form>
+                        <form method="post" action="{% url 'delete_playlist' playlist.id %}" hx-boost="true" hx-target="#main-content" hx-swap="innerHTML" hx-push-url="true" class="inline-form delete-form" onsubmit="return confirm('Are you sure you want to delete this playlist?')">
+                            {% csrf_token %}
+                            <button type="submit">Delete</button>
+                        </form>
+                    </div>
+                </div>
+                <div class="playlist-videos">
+                    {% include "downloader/_video_table.html" with videos=playlist.videos.all show_playlist_add=False show_delete=False %}
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+{% else %}
+    <p class="no-playlists">No playlists yet.</p>
+{% endif %}
+{% endblock %}

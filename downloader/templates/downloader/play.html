@@ -1,0 +1,18 @@
+{% extends 'downloader/base.html' %}
+
+{% block title %}Play {{ video.title }}{% endblock %}
+
+{% block content %}
+<h2>{{ video.title }}</h2>
+{% if video.media_type == 'audio' %}
+<audio controls class="media-full">
+    <source src="{% url 'get_video_url' video.id %}" type="audio/mpeg">
+    Your browser does not support the audio element.
+</audio>
+{% else %}
+<video controls class="media-full video-max">
+    <source src="{% url 'get_video_url' video.id %}" type="video/mp4">
+    Your browser does not support the video element.
+</video>
+{% endif %}
+{% endblock %}

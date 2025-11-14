@@ -1,0 +1,19 @@
+<div class="title-bar">
+    <div class="title-bar-text">Now Playing: {{ video.title }}</div>
+    <div class="title-bar-controls">
+        <button class="minimize-btn" aria-label="Minimize" onclick="toggleMinimize(this.closest('.window'))">_</button>
+    </div>
+</div>
+<div class="window-body">
+    {% if video.media_type == 'audio' %}
+    <audio controls preload="metadata">
+        <source src="{% url 'get_video_url' video.id %}" type="audio/mpeg">
+        Your browser does not support the audio element.
+    </audio>
+    {% else %}
+    <video controls preload="metadata">
+        <source src="{% url 'get_video_url' video.id %}" type="video/mp4">
+        Your browser does not support the video element.
+    </video>
+    {% endif %}
+</div>

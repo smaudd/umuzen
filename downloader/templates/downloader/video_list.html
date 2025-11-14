@@ -1,0 +1,8 @@
+{% extends 'downloader/base.html' %}
+
+{% block title %}My Videos{% endblock %}
+
+{% block content %}
+<h2>Videos</h2>
+{% include "downloader/_video_table.html" with videos=videos show_playlist_add=True show_delete=True %}
+{% endblock %}

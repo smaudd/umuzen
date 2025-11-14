@@ -1,0 +1,8 @@
+<form method="post" hx-boost="true" hx-target="#main-content" hx-swap="innerHTML" hx-push-url="true">
+    {% csrf_token %}
+    <select multiple name="playlists" onchange="this.form.requestSubmit()" class="multi-select">
+        {% for playlist in playlists %}
+            <option value="{{ playlist.id }}" {% if playlist in video.playlist_set.all %}selected{% endif %}>{{ playlist.name }}</option>
+        {% endfor %}
+    </select>
+</form>

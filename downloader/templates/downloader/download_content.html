@@ -1,0 +1,25 @@
+{% if messages %}
+<ul class="messages">
+    {% for message in messages %}
+        <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+    {% endfor %}
+</ul>
+{% endif %}
+<h2>Download YouTube Video</h2>
+<form method="post" hx-boost="true" hx-target="#main-content" hx-swap="innerHTML" hx-push-url="true">
+    {% csrf_token %}
+    <div class="field-row">
+        <label for="url">YouTube URL:</label>
+        <input type="url" name="url" id="url" required>
+    </div>
+    <div class="field-row">
+        <label for="media_type">Type:</label>
+        <select name="media_type" id="media_type">
+            <option value="video">Video</option>
+            <option value="audio">Audio (MP3)</option>
+        </select>
+    </div>
+    <div class="field-row">
+        <button type="submit">Download</button>
+    </div>
+</form>

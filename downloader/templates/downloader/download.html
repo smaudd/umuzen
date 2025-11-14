@@ -1,0 +1,24 @@
+{% extends 'downloader/base.html' %}
+
+{% block title %}Download Video{% endblock %}
+
+{% block content %}
+<h2>Download YouTube Video</h2>
+<form method="post">
+    {% csrf_token %}
+    <div class="field-row">
+        <label for="url">YouTube URL:</label>
+        <input type="url" name="url" id="url" required>
+    </div>
+    <div class="field-row">
+        <label for="media_type">Type:</label>
+        <select name="media_type" id="media_type">
+            <option value="video">Video</option>
+            <option value="audio">Audio (MP3)</option>
+        </select>
+    </div>
+    <div class="field-row">
+        <button type="submit">Download</button>
+    </div>
+</form>
+{% endblock %}

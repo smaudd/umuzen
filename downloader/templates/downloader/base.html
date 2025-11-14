@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}umuzen{% endblock %}</title>
+    {% load static %}
+    <link rel="stylesheet" href="https://unpkg.com/xp.css@0.2.3/dist/XP.css">
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+    <script src="https://unpkg.com/htmx.org@1.9.10"></script>
+    <script src="{% static 'js/scripts.js' %}"></script>
+</head>
+<body>
+    <div class="window main-window">
+        <div class="title-bar">
+            <div class="title-bar-text">Admin</div>
+        </div>
+        <div class="window-body">
+            {% if user.is_authenticated %}
+                <menu role="tablist">
+                    <button role="tab" hx-get="{% url 'video_list' %}" hx-target="#main-content" hx-swap="innerHTML show:none" hx-push-url="true" {% if request.resolver_match.url_name == 'video_list' %}aria-selected="true"{% endif %}>My Videos</button>
+                    <button role="tab" hx-get="{% url 'search_videos' %}" hx-target="#main-content" hx-swap="innerHTML show:none" hx-push-url="true" {% if request.resolver_match.url_name == 'search_videos' %}aria-selected="true"{% endif %}>Search Videos</button>
+                    <button role="tab" hx-get="{% url 'playlist_list' %}" hx-target="#main-content" hx-swap="innerHTML show:none" hx-push-url="true" {% if request.resolver_match.url_name == 'playlist_list' %}aria-selected="true"{% endif %}>Playlists</button>
+                    <button role="tab" hx-get="{% url 'download' %}" hx-target="#main-content" hx-swap="innerHTML show:none" hx-push-url="true" {% if request.resolver_match.url_name == 'download' %}aria-selected="true"{% endif %}>Download Video</button>
+                    <button role="tab" hx-on:click="window.location.href='{% url 'logout' %}'">Logout</button>
+                </menu>
+            {% else %}
+                <menu role="tablist" hx-boost="true" hx-target="#main-content" hx-swap="innerHTML">
+                    <li role="tab" {% if request.resolver_match.url_name == 'login' %}aria-selected="true"{% endif %}><a href="{% url 'login' %}">Login</a></li>
+                </menu>
+            {% endif %}
+            <article id="main-content" role="tabpanel">
+                {% if messages %}
+                    {% for message in messages %}
+                        <div class="status-bar">
+                            <p class="status-bar-field">{{ message }}</p>
+                        </div>
+                    {% endfor %}
+                {% endif %}
+                {% block content %}{% endblock %}
+            </article>
+        </div>
+    </div>
+    <div id="global-player" class="window global-player"></div>
+    <div id="playlist-modal" class="playlist-modal"></div>
+</body>
+</html>
